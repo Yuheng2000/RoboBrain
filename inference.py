@@ -112,15 +112,15 @@ class SimpleInference:
         plt.close()
 
 
-model_id="/home/vlm/pretrain_model/robobrain_baai_hf"  # "BAAI/RoboBrain"
-lora_id="/home/vlm/workspace/checkpoints/hf_lora_new_exp_1" # "BAAI/RoboBrain-LoRA-Affordance"
-model = SimpleInference(model_id, lora_id)
+if __name__ == "__main__":
+    model_id="/home/vlm/pretrain_model/robobrain_baai_hf"  # "BAAI/RoboBrain"
+    lora_id="/home/vlm/workspace/checkpoints/hf_lora_new_exp_1" # "BAAI/RoboBrain-LoRA-Affordance"
+    model = SimpleInference(model_id, lora_id)
 
-# Example 1:
-prompt = "You are a robot using the joint control. The task is \"pick_up the suitcase\". Please predict a possible affordance area of the end effector?"
+    # Example 1:
+    prompt = "You are a robot using the joint control. The task is \"pick_up the suitcase\". Please predict a possible affordance area of the end effector?"
+    image = "./assets/demo/affordance_1.jpg"
 
-image = "./assets/demo/affordance_1.jpg"
-
-pred = model.inference(prompt, image, do_sample=False)
-print(f"Prediction: {pred}")
-model.visualization(pred, image, prompt)
+    pred = model.inference(prompt, image, do_sample=False)
+    print(f"Prediction: {pred}")
+    model.visualization(pred, image, prompt)
