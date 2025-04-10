@@ -33,7 +33,7 @@ This repository supports:
 
 
 ## 🗞️ News
-
+- **`2025-04-04`**: 🤗 We have released [Trajectory Checkpoint](https://huggingface.co/BAAI/RoboBrain-LoRA-Trajectory/) in Huggingface.
 - **`2025-03-29`**: 🤗 We have released [Affordance Checkpoint](https://huggingface.co/BAAI/RoboBrain-LoRA-Affordance/) in Huggingface.
 - **`2025-03-27`**: 🤗 We have released [Planning Checkpoint](https://huggingface.co/BAAI/RoboBrain/) in Huggingface.
 - **`2025-03-26`**: 🔥 We have released the [RoboBrain](https://github.com/FlagOpen/RoboBrain/) repository.
@@ -44,8 +44,8 @@ This repository supports:
 - [x] Release scripts for model training and inference.
 - [x] Release Planning checkpoint.
 - [x] Release Affordance checkpoint.
-- [ ] Release ShareRobot dataset. *(Uploading ...)*
-- [ ] Release Trajectory checkpoint.
+- [x] Release ShareRobot dataset.
+- [x] Release Trajectory checkpoint.
 - [ ] Release evaluation scripts for Benchmarks.
 - [ ] Training more powerful **Robobrain-v2**.
 
@@ -282,11 +282,46 @@ print(f"Prediction: {pred}")
 ```
 
 <div align="center">
-<img src="./assets/demo/examples.png" />
+<img src="./assets/demo/afford_examples.png" />
 </div>
 
 ### 3. Usage for Trajectory Prediction
-*Coming Soon ...*
+```python
+from inference import SimpleInference
+
+model_id = "BAAI/RoboBrain"
+lora_id = "BAAI/RoboBrain-LoRA-Trajectory"
+model = SimpleInference(model_id, lora_id)
+
+# Example 1:
+prompt = "You are a robot using the joint control. The task is \"pick up the knife\". Please predict up to 10 key trajectory points to complete the task. Your answer should be formatted as a list of tuples, i.e. [[x1, y1], [x2, y2], ...], where each tuple contains the x and y coordinates of a point."
+
+image = "./assets/demo/trajectory_1.png"
+
+pred = model.inference(prompt, image, do_sample=False)
+print(f"Prediction: {pred}")
+
+'''
+    Prediction: [[0.375, 0.297], [0.281, 0.344], [0.214, 0.406], [0.172, 0.473]]
+'''
+
+# Example 2:
+prompt = "You are a robot using the joint control. The task is \"reach for the banana\". Please predict up to 10 key trajectory points to complete the task. Your answer should be formatted as a list of tuples, i.e. [[x1, y1], [x2, y2], ...], where each tuple contains the x and y coordinates of a point."
+
+image = "./assets/demo/trajectory_2.png"
+
+pred = model.inference(prompt, image, do_sample=False)
+print(f"Prediction: {pred}")
+
+'''
+    Prediction: [[0.264, 0.479], [0.387, 0.512], [0.505, 0.554], [0.642, 0.6]]
+'''
+
+```
+
+<div align="center">
+<img src="./assets/demo/traj_examples.png" />
+</div>
 
 
 ## <a id="Evaluation">🤖 Evaluation</a>
