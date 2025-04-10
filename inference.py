@@ -82,8 +82,8 @@ class SimpleInference:
 
 
 if __name__ == "__main__":
-    model_id="/home/vlm/pretrain_model/robobrain_baai_hf"  # "BAAI/RoboBrain"
-    lora_id="/home/vlm/workspace/checkpoints/hf_lora_new_exp_1" # "BAAI/RoboBrain-LoRA-Affordance"
+    model_id = "BAAI/RoboBrain"
+    lora_id = "BAAI/RoboBrain-LoRA-Affordance"
     model = SimpleInference(model_id, lora_id)
 
     prompt = "What is shown in this image?"
