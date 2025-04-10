@@ -1,7 +1,6 @@
 import torch
 from transformers import AutoProcessor, AutoModelForPreTraining
 from PIL import Image
-import matplotlib.pyplot as plt
 
 class SimpleInference:
     """
@@ -81,46 +80,15 @@ class SimpleInference:
 
         return prediction
 
-    def draw_bbox(self, image, bbox, color='red', label=''):
-        """Draw bounding box on the image."""
-        x1, y1, x2, y2 = bbox
-        plt.gca().add_patch(plt.Rectangle((x1, y1), x2 - x1, y2 - y1, fill=False, edgecolor=color, linewidth=2, label=label))
-
-    def visualization(self, bbox, image, prompt=None):
-        if isinstance(bbox, str):
-            x1, y1, x2, y2 = eval(bbox)
-        else:
-            x1, y1, x2, y2 = bbox
-
-        img = Image.open(image)
-        img_w, img_h = img.size
-        
-        abs_bbox = [x1 * img_w, y1 * img_h, x2 * img_w, y2 * img_h]
-
-        # Plotting
-        plt.figure(figsize=(10, 8))
-        plt.imshow(img)
-        self.draw_bbox(img, abs_bbox, color='blue', label='Predicted')
-
-        if prompt:
-            plt.title(prompt)
-        plt.axis('off')
-        plt.legend()
-        plt.show()
-
-        plt.savefig("demo_visualization.png", bbox_inches='tight', dpi=300)
-        plt.close()
-
 
 if __name__ == "__main__":
     model_id="/home/vlm/pretrain_model/robobrain_baai_hf"  # "BAAI/RoboBrain"
     lora_id="/home/vlm/workspace/checkpoints/hf_lora_new_exp_1" # "BAAI/RoboBrain-LoRA-Affordance"
     model = SimpleInference(model_id, lora_id)
 
-    # Example 1:
-    prompt = "You are a robot using the joint control. The task is \"pick_up the suitcase\". Please predict a possible affordance area of the end effector?"
-    image = "./assets/demo/affordance_1.jpg"
+    prompt = "What is shown in this image?"
+    image = "http://images.cocodataset.org/val2017/000000039769.jpg"
 
-    pred = model.inference(prompt, image, do_sample=False)
+    pred = model.inference(prompt, image, do_sample=True)
     print(f"Prediction: {pred}")
     model.visualization(pred, image, prompt)
